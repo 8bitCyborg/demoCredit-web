@@ -10,7 +10,7 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import storage from 'redux-persist/es/storage/index.js';
 import { baseApi } from '../services/api';
 import userReducer from './slices/userSlice';
 
