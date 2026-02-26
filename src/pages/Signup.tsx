@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useSignupMutation } from '../services/auth';
+import { setCredentials } from '../store/slices/userSlice';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [signup] = useSignupMutation();
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
       phone: '',
       bvn: '',
@@ -19,8 +25,8 @@ const Signup: React.FC = () => {
       confirmPassword: '',
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required('Required'),
-      lastName: Yup.string().required('Required'),
+      first_name: Yup.string().required('Required'),
+      last_name: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
       phone: Yup.string()
         .matches(/^[0-9+\s()-]{7,15}$/, 'Invalid phone number')
@@ -35,10 +41,19 @@ const Signup: React.FC = () => {
         .oneOf([Yup.ref('password')], 'Passwords must match')
         .required('Required'),
     }),
-    onSubmit: (values) => {
-      console.log('Mock Signup:', values);
-      alert('Signed up successfully (Mock)');
-      navigate('/login');
+    onSubmit: async (values) => {
+      setApiError(null);
+      const { confirmPassword, ...payload } = values;
+      try {
+        const result = await signup(payload).unwrap();
+        console.log('result', result);
+        dispatch(setCredentials({ user: result.response.user }));
+        navigate('/');
+      } catch (err: any) {
+        const message =
+          err?.data?.message || err?.data?.error || 'Something went wrong. Please try again.';
+        setApiError(message);
+      }
     },
   });
 
@@ -69,39 +84,39 @@ const Signup: React.FC = () => {
               {/* First & Last Name */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="first_name" className="block text-sm font-semibold text-gray-700 mb-2">
                     First Name
                   </label>
                   <input
-                    id="firstName"
+                    id="first_name"
                     type="text"
-                    {...formik.getFieldProps('firstName')}
-                    className={`w-full px-4 py-3.5 rounded-2xl border-2 bg-gray-50 text-gray-900 placeholder-gray-400 font-medium transition-all focus:outline-none focus:bg-white ${formik.touched.firstName && formik.errors.firstName
+                    {...formik.getFieldProps('first_name')}
+                    className={`w-full px-4 py-3.5 rounded-2xl border-2 bg-gray-50 text-gray-900 placeholder-gray-400 font-medium transition-all focus:outline-none focus:bg-white ${formik.touched.first_name && formik.errors.first_name
                       ? 'border-red-400 focus:border-red-400 focus:ring-4 focus:ring-red-100'
                       : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
                       }`}
                     placeholder="John"
                   />
-                  {formik.touched.firstName && formik.errors.firstName ? (
-                    <p className="mt-2 text-xs text-red-500 font-semibold">{formik.errors.firstName}</p>
+                  {formik.touched.first_name && formik.errors.first_name ? (
+                    <p className="mt-2 text-xs text-red-500 font-semibold">{formik.errors.first_name}</p>
                   ) : null}
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="last_name" className="block text-sm font-semibold text-gray-700 mb-2">
                     Last Name
                   </label>
                   <input
-                    id="lastName"
+                    id="last_name"
                     type="text"
-                    {...formik.getFieldProps('lastName')}
-                    className={`w-full px-4 py-3.5 rounded-2xl border-2 bg-gray-50 text-gray-900 placeholder-gray-400 font-medium transition-all focus:outline-none focus:bg-white ${formik.touched.lastName && formik.errors.lastName
+                    {...formik.getFieldProps('last_name')}
+                    className={`w-full px-4 py-3.5 rounded-2xl border-2 bg-gray-50 text-gray-900 placeholder-gray-400 font-medium transition-all focus:outline-none focus:bg-white ${formik.touched.last_name && formik.errors.last_name
                       ? 'border-red-400 focus:border-red-400 focus:ring-4 focus:ring-red-100'
                       : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100'
                       }`}
                     placeholder="Doe"
                   />
-                  {formik.touched.lastName && formik.errors.lastName ? (
-                    <p className="mt-2 text-xs text-red-500 font-semibold">{formik.errors.lastName}</p>
+                  {formik.touched.last_name && formik.errors.last_name ? (
+                    <p className="mt-2 text-xs text-red-500 font-semibold">{formik.errors.last_name}</p>
                   ) : null}
                 </div>
               </div>
@@ -214,6 +229,13 @@ const Signup: React.FC = () => {
                 <a href="#" className="text-blue-600 hover:underline font-semibold">Terms of Service</a> and{' '}
                 <a href="#" className="text-blue-600 hover:underline font-semibold">Privacy Policy</a>.
               </p>
+
+              {/* API error */}
+              {apiError && (
+                <div className="px-4 py-3 rounded-2xl bg-red-50 border border-red-200 text-sm text-red-600 font-semibold">
+                  {apiError}
+                </div>
+              )}
 
               {/* Submit */}
               <button

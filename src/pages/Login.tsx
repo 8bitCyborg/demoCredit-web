@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useLoginMutation } from '../services/auth';
+import { setCredentials } from '../store/slices/userSlice';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login] = useLoginMutation();
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -19,10 +25,17 @@ const Login: React.FC = () => {
         .min(6, 'Must be at least 6 characters')
         .required('Required'),
     }),
-    onSubmit: (values) => {
-      console.log('Mock Login:', values);
-      alert('Logged in successfully (Mock)');
-      navigate('/');
+    onSubmit: async (values) => {
+      setApiError(null);
+      try {
+        const result = await login(values).unwrap();
+        dispatch(setCredentials({ user: result.response.user }));
+        navigate('/');
+      } catch (err: any) {
+        const message =
+          err?.data?.message || err?.data?.error || 'Invalid credentials. Please try again.';
+        setApiError(message);
+      }
     },
   });
 
@@ -128,6 +141,13 @@ const Login: React.FC = () => {
                   <p className="mt-2 text-xs text-red-500 font-semibold">{formik.errors.password}</p>
                 ) : null}
               </div>
+
+              {/* API error */}
+              {apiError && (
+                <div className="px-4 py-3 rounded-2xl bg-red-50 border border-red-200 text-sm text-red-600 font-semibold mb-2">
+                  {apiError}
+                </div>
+              )}
 
               {/* Submit */}
               <button
