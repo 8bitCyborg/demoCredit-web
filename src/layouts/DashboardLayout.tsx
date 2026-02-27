@@ -1,15 +1,20 @@
 import React from 'react';
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/slices/userSlice';
+import { useLogoutMutation } from '../services/auth';
 
 const DashboardLayout: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [logoutApi] = useLogoutMutation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await logoutApi().unwrap();
+    } catch (error) {
+      console.error('Failed to logout on server', error);
+    }
     dispatch(logout());
-    navigate('/login');
   };
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>

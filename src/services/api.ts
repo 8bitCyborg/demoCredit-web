@@ -10,6 +10,6 @@ export const baseApi = createApi({
     },
     credentials: 'include',
   }),
-  tagTypes: ['User', 'Wallet'],
+  tagTypes: ['User', 'Wallet', 'Ledger'],
   endpoints: () => ({}),
 });
