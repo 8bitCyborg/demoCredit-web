@@ -57,7 +57,7 @@ const Transfers: React.FC = () => {
 
   // Transfer States
   const [transferAmount, setTransferAmount] = useState('');
-  const [transferEmail, setTransferEmail] = useState('');
+  const [transferPhone, setTransferPhone] = useState('');
   const [transferError, setTransferError] = useState('');
   const [transferSuccess, setTransferSuccess] = useState('');
 
@@ -132,7 +132,7 @@ const Transfers: React.FC = () => {
     setTransferError('');
     setTransferSuccess('');
 
-    if (transferEmail === user?.email) {
+    if (transferPhone === user?.phone) {
       setTransferError('You cannot transfer money to yourself.');
       return;
     }
@@ -148,10 +148,10 @@ const Transfers: React.FC = () => {
     }
 
     try {
-      const receiver = await validateReceiver({ email: transferEmail }).unwrap();
+      const receiver = await validateReceiver({ phone: transferPhone }).unwrap();
 
       if (!receiver || !receiver.id) {
-        setTransferError('Could not find a user with this email.');
+        setTransferError('Could not find a user with this phone number.');
         return;
       }
 
@@ -167,7 +167,7 @@ const Transfers: React.FC = () => {
 
       setTransferSuccess(`Successfully transferred ₦${amountNum} to ${receiver.first_name}`);
       setTransferAmount('');
-      setTransferEmail('');
+      setTransferPhone('');
       setTimeout(() => setTransferSuccess(''), 4000);
     } catch (err: any) {
       setTransferError(err?.data?.message || err?.data?.error || err.message || 'Transfer failed.');
@@ -301,21 +301,21 @@ const Transfers: React.FC = () => {
 
                 <form onSubmit={handleTransfer} className="space-y-6">
                   <div>
-                    <label htmlFor="t-email" className="block text-sm font-bold text-gray-700 mb-3">
-                      Recipient Email
+                    <label htmlFor="t-phone" className="block text-sm font-bold text-gray-700 mb-3">
+                      Recipient Phone
                     </label>
                     <div className="relative flex items-center">
                       <div className="absolute left-6 text-gray-400">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" /></svg>
                       </div>
                       <input
-                        id="t-email"
-                        type="email"
+                        id="t-phone"
+                        type="tel"
                         disabled={isBlocked || isTransferring || isValidatingReceiver}
-                        value={transferEmail}
-                        onChange={(e) => setTransferEmail(e.target.value)}
+                        value={transferPhone}
+                        onChange={(e) => setTransferPhone(e.target.value)}
                         className="w-full pl-16 pr-6 py-5 rounded-2xl border-2 border-gray-100 bg-gray-50/50 text-gray-900 placeholder-gray-400 text-lg font-bold transition-all focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 disabled:opacity-60 disabled:cursor-not-allowed"
-                        placeholder="hello@example.com"
+                        placeholder="08012345678"
                       />
                     </div>
                   </div>
@@ -357,7 +357,7 @@ const Transfers: React.FC = () => {
 
                   <button
                     type="submit"
-                    disabled={isTransferring || isValidatingReceiver || isBlocked || !transferAmount || !transferEmail}
+                    disabled={isTransferring || isValidatingReceiver || isBlocked || !transferAmount || !transferPhone}
                     className="w-full py-5 bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-black rounded-2xl shadow-xl shadow-indigo-600/20 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isTransferring || isValidatingReceiver ? 'Processing securely…' : 'Send Fast Transfer'}

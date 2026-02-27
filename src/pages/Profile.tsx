@@ -4,7 +4,6 @@ import { selectCurrentUser } from '../store/slices/userSlice';
 
 const Profile: React.FC = () => {
   const user = useSelector(selectCurrentUser);
-  console.log('user', user);
 
   return (
     <div className="p-10 max-w-4xl">
