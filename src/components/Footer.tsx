@@ -20,9 +20,9 @@ const Footer: React.FC = () => {
           <div className="md:text-right">
             <h4 className="font-bold text-gray-900 mb-6 uppercase tracking-widest text-xs">Resources</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Documentation</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-blue-600 font-medium transition-colors">API Status</a></li>
+              <li><a href="/documentation" className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Documentation</a></li>
+              <li><a href="/democredit.postman_collection.json" download="/democredit.postman_collection.json" className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Download Postman Collection</a></li>
+              <li><a href="/swagger.json" download="/swagger.json" className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Swagger.json</a></li>
             </ul>
           </div>
 

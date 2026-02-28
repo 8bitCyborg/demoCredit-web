@@ -6,6 +6,7 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Transfers from '../pages/Transfers';
+import Documentation from '../pages/Documentation';
 
 export const publicRoutes = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const publicRoutes = createBrowserRouter([
   {
     path: '/signup',
     element: <Signup />,
+  },
+  {
+    path: '/documentation',
+    element: <Documentation />,
   },
   {
     // Catch-all for public routes
@@ -47,6 +52,10 @@ export const privateRoutes = createBrowserRouter([
       {
         path: 'dashboard/transfers',
         element: <Transfers />,
+      },
+      {
+        path: 'dashboard/documentation',
+        element: <Documentation />,
       },
       {
         // Catch-all for authenticated state
