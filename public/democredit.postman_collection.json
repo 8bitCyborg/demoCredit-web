@@ -13,7 +13,6 @@
           "name": "Signup",
           "request": {
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"first_name\": \"John\",\n    \"last_name\": \"Doe\",\n    \"email\": \"john@example.com\",\n    \"phone\": \"08012345678\",\n    \"password\": \"Password123!\",\n    \"bvn\": \"22222222222\"\n}",
@@ -32,7 +31,6 @@
           "name": "Login",
           "request": {
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"Password123!\"\n}",
@@ -51,7 +49,6 @@
           "name": "Logout",
           "request": {
             "method": "POST",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/auth/logout"
             }
@@ -66,7 +63,6 @@
           "name": "Get Wallet Info",
           "request": {
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/wallet"
             }
@@ -76,7 +72,6 @@
           "name": "Fund Wallet",
           "request": {
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"amount\": 5000,\n    \"email\": \"john@example.com\",\n    \"reference\": \"FUND-{{$randomInt}}\",\n    \"category\": \"funding\"\n}",
@@ -95,7 +90,6 @@
           "name": "Transfer Funds",
           "request": {
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"receiver_user_id\": 2,\n    \"receiver_name\": \"Jane Smith\",\n    \"sender_name\": \"John Doe\",\n    \"amount\": 1000,\n    \"reference\": \"TRANS-{{$randomInt}}\",\n    \"category\": \"transfer\"\n}",
@@ -114,7 +108,6 @@
           "name": "Withdraw Funds",
           "request": {
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"amount\": 2000,\n    \"reference\": \"WITH-{{$randomInt}}\",\n    \"counterparty_id\": \"1234567890\",\n    \"destination_bank_code\": \"058\",\n    \"counterparty_name\": \"John Doe Savings\"\n}",
@@ -138,7 +131,6 @@
           "name": "Validate Receiver",
           "request": {
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n    \"phone\": \"09087654321\"\n}",
@@ -157,7 +149,6 @@
           "name": "Get User Ledger",
           "request": {
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{baseUrl}}/ledger/get-user-ledger"
             }
@@ -166,10 +157,27 @@
       ]
     }
   ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Automatically injects the required client header into every request",
+          "pm.request.headers.add({key: 'x-client-type', value: 'democredit-webapp' });"
+        ]
+      }
+    }
+  ],
   "variable": [
     {
       "key": "baseUrl",
       "value": "https://shalomhope-lendsqr-be-test.onrender.com/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
       "type": "string"
     }
   ]

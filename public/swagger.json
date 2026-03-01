@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "demoCredit API",
-    "description": "API documentation for the demoCredit Wallet Service MVP",
+    "description": "API documentation for the demoCredit Wallet Service MVP. Focuses on secure wallet operations, concurrency control, and Adjutor integration.",
     "version": "1.0.0"
   },
   "servers": [
@@ -11,307 +11,31 @@
       "description": "Production server"
     }
   ],
-  "paths": {
-    "/api/auth/signup": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "User signup",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SignupInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User created successfully",
-            "headers": {
-              "Set-Cookie": {
-                "schema": {
-                  "type": "string",
-                  "example": "token=abc123xyz; HttpOnly; Path=/; Max-Age=86400"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation failed"
-          },
-          "403": {
-            "description": "Forbidden - User is blacklisted on Lendsqr Karma"
-          }
-        }
-      }
-    },
-    "/api/auth/login": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "User login",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login successful",
-            "headers": {
-              "Set-Cookie": {
-                "schema": {
-                  "type": "string",
-                  "example": "token=abc123xyz; HttpOnly; Path=/; Max-Age=86400"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Invalid credentials"
-          }
-        }
-      }
-    },
-    "/api/auth/logout": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "User logout",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Logged out successfully"
-          }
-        }
-      }
-    },
-    "/api/user/validate-receiver": {
-      "post": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Validate receiver phone number",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ValidateReceiverInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Receiver valid",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "first_name": {
-                      "type": "string"
-                    },
-                    "last_name": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ledger/get-user-ledger": {
-      "get": {
-        "tags": [
-          "Ledger"
-        ],
-        "summary": "Get user transaction history",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User ledger retrieved",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/wallet": {
-      "get": {
-        "tags": [
-          "Wallet"
-        ],
-        "summary": "Get user wallet balance",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Wallet data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "balance": {
-                      "type": "number"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/wallet/fund": {
-      "post": {
-        "tags": [
-          "Wallet"
-        ],
-        "summary": "Fund wallet",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FundWalletInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Funding initiated/completed"
-          }
-        }
-      }
-    },
-    "/api/wallet/withdraw": {
-      "post": {
-        "tags": [
-          "Wallet"
-        ],
-        "summary": "Withdraw from wallet",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WithdrawInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Withdrawal processed"
-          }
-        }
-      }
-    },
-    "/api/wallet/transfer": {
-      "post": {
-        "tags": [
-          "Wallet"
-        ],
-        "summary": "Transfer funds to another user",
-        "security": [
-          {
-            "bearerAuth": []
-          },
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransferInput"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Transfer successful"
-          }
-        }
-      }
-    }
-  },
   "components": {
+    "parameters": {
+      "ClientTypeHeader": {
+        "name": "x-client-type",
+        "in": "header",
+        "required": true,
+        "description": "Required client identifier (e.g., democredit-webapp)",
+        "schema": {
+          "type": "string",
+          "default": "democredit-webapp"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "token"
+      }
+    },
     "schemas": {
       "SignupInput": {
         "type": "object",
@@ -416,8 +140,7 @@
         "properties": {
           "amount": {
             "type": "number",
-            "minimum": 0,
-            "maximum": 10000000
+            "minimum": 0
           },
           "reference": {
             "type": "string"
@@ -425,9 +148,6 @@
           "category": {
             "type": "string",
             "default": "withdrawal"
-          },
-          "description": {
-            "type": "string"
           },
           "counterparty_id": {
             "type": "string"
@@ -452,8 +172,7 @@
         ],
         "properties": {
           "receiver_user_id": {
-            "type": "integer",
-            "minimum": 0
+            "type": "integer"
           },
           "receiver_name": {
             "type": "string"
@@ -462,9 +181,7 @@
             "type": "string"
           },
           "amount": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 10000000
+            "type": "number"
           },
           "reference": {
             "type": "string"
@@ -477,17 +194,276 @@
           }
         }
       }
+    }
+  },
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User signup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "403": {
+            "description": "Forbidden - Blacklisted on Karma"
+          }
+        }
+      }
     },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      },
-      "cookieAuth": {
-        "type": "apiKey",
-        "in": "cookie",
-        "name": "token"
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User login",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User logout",
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logged out successfully"
+          }
+        }
+      }
+    },
+    "/api/user/validate-receiver": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Validate receiver phone number",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateReceiverInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Receiver valid"
+          }
+        }
+      }
+    },
+    "/api/ledger/get-user-ledger": {
+      "get": {
+        "tags": [
+          "Ledger"
+        ],
+        "summary": "Get user transaction history",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ledger retrieved"
+          }
+        }
+      }
+    },
+    "/api/wallet": {
+      "get": {
+        "tags": [
+          "Wallet"
+        ],
+        "summary": "Get wallet balance",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Balance data"
+          }
+        }
+      }
+    },
+    "/api/wallet/fund": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "summary": "Fund wallet",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FundWalletInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Funding successful"
+          }
+        }
+      }
+    },
+    "/api/wallet/withdraw": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "summary": "Withdraw funds",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Withdrawal successful"
+          }
+        }
+      }
+    },
+    "/api/wallet/transfer": {
+      "post": {
+        "tags": [
+          "Wallet"
+        ],
+        "summary": "Transfer funds",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ClientTypeHeader"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transfer successful"
+          }
+        }
       }
     }
   }

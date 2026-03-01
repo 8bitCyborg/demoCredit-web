@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   ShieldCheck, Server, Database, CheckCircle, Code, Zap, Download,
   ExternalLink, Lock, Menu, X, Terminal,
-  Layout, Activity, CreditCard, List, Key, Info
+  Layout, Activity, CreditCard, List, Key, Info, MonitorSmartphone,
 } from 'lucide-react';
 
 type BadgeVariant = 'blue' | 'green' | 'amber' | 'indigo';
@@ -208,6 +208,9 @@ const ApiDocumentation = () => {
           <section id="api-reference" className="scroll-mt-28">
             <h2 className="text-3xl font-bold text-slate-900 mb-8">API Reference</h2>
 
+            <p className="text-slate-600 mb-8 italic">
+              The API requires a 'X-Client-Type' header with value 'demoCredit-webapp' for all requests.
+            </p>
             <div className="space-y-16">
               {/* Auth */}
               <div className="space-y-6">
@@ -343,6 +346,15 @@ const ApiDocumentation = () => {
             <h2 className="text-3xl font-bold text-slate-900 mb-8 tracking-tight">Security and Identity</h2>
 
             <div className="bg-slate-900 text-slate-300 p-8 rounded-3xl space-y-10 shadow-xl border border-slate-800">
+
+              <div className="border-b border-slate-800 pb-8">
+                <h4 className="font-bold text-white mb-3 flex items-center gap-2">
+                  <MonitorSmartphone size={18} className="text-indigo-400" /> Client-Source Verification
+                </h4>
+                <p className="text-sm leading-relaxed italic opacity-90">
+                  The API enforces a strict <strong>Client-Key requirement</strong>. All incoming requests must include a valid <code>x-client-type</code> header (e.g., <code>democredit-webapp</code>). This provides an initial layer of defense, ensuring that only registered and recognized client applications can interact with the service, effectively mitigating unauthorized bot traffic and external probing.
+                </p>
+              </div>
 
               {/* Mandatory Bearer Authentication */}
               <div className="border-b border-slate-800 pb-8">
