@@ -352,7 +352,7 @@ const ApiDocumentation = () => {
                   <MonitorSmartphone size={18} className="text-indigo-400" /> Client-Source Verification
                 </h4>
                 <p className="text-sm leading-relaxed italic opacity-90">
-                  The API enforces a strict <strong>Client-Key requirement</strong>. All incoming requests must include a valid <code>x-client-type</code> header (e.g., <code>democredit-webapp</code>). This provides an initial layer of defense, ensuring that only registered and recognized client applications can interact with the service, effectively mitigating unauthorized bot traffic and external probing.
+                  The API enforces a strict <strong>Client-Key requirement</strong>. All incoming requests must include a valid <code>x-client-type</code> header with value, <code>democredit-webapp</code>. This is to ensure that only registered and recognized client applications can interact with the service, to help mitigate unauthorized bot traffic and external probing.
                 </p>
               </div>
 
