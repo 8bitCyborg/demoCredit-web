@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AlertCircle } from 'lucide-react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
@@ -87,6 +88,18 @@ const Login: React.FC = () => {
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-50 rounded-full blur-3xl opacity-60 -z-10" />
 
           <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="mb-8 p-5 bg-blue-600 border border-blue-500 rounded-2xl flex gap-4 shadow-xl shadow-blue-100 animate-in fade-in zoom-in duration-500">
+              <div className="flex-shrink-0">
+                <AlertCircle size={22} className="text-blue-100 mt-0.5" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-bold text-white text-base leading-tight">Server Sleep Mode</h4>
+                <p className="text-blue-50 text-sm leading-relaxed opacity-95">
+                  This project is hosted on a free-tier instance that powers down after 15 minutes of inactivity.
+                  <span className="font-bold text-white">Your first request</span> may take <span className="font-bold text-white underline underline-offset-4 decoration-blue-300">60+ seconds</span> to wake up the server; subsequent requests will be faster.
+                </p>
+              </div>
+            </div>
             {/* Header */}
             <div className="mb-10">
               <p className="text-sm font-bold text-blue-600 uppercase tracking-widest mb-3">Sign In</p>

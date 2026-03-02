@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useSignupMutation } from '../services/auth';
 import { setCredentials } from '../store/slices/userSlice';
+import { AlertCircle } from 'lucide-react';
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
@@ -71,6 +72,18 @@ const Signup: React.FC = () => {
 
           <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
+            <div className="mb-8 p-5 bg-blue-600 border border-blue-500 rounded-2xl flex gap-4 shadow-xl shadow-blue-100 animate-in fade-in zoom-in duration-500">
+              <div className="flex-shrink-0">
+                <AlertCircle size={22} className="text-blue-100 mt-0.5" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-bold text-white text-base leading-tight">Server Sleep Mode</h4>
+                <p className="text-blue-50 text-sm leading-relaxed opacity-95">
+                  This project is hosted on a free-tier instance that powers down after 15 minutes of inactivity.
+                  <span className="font-bold text-white">Your first request</span> may take <span className="font-bold text-white underline underline-offset-4 decoration-blue-300">60+ seconds</span> to wake up the server; subsequent requests will be faster.
+                </p>
+              </div>
+            </div>
             <div className="mb-10">
               <p className="text-sm font-bold text-blue-600 uppercase tracking-widest mb-3">Get Started</p>
               <h1 className="text-4xl font-black text-gray-900 tracking-tighter leading-tight mb-3">
