@@ -46,11 +46,11 @@ const Loans: React.FC = () => {
   };
 
   const validateFile = (file: File) => {
-    const validTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+    const validTypes = ['application/pdf'];
     const maxSize = 5 * 1024 * 1024; // 5MB
 
     if (!validTypes.includes(file.type)) {
-      alert('Please upload a PDF or Image (JPEG/PNG)');
+      alert('Please upload a PDF document');
       return false;
     }
 
@@ -208,7 +208,7 @@ const Loans: React.FC = () => {
                 ref={fileInputRef}
                 className="hidden"
                 onChange={handleFileChange}
-                accept=".pdf,image/jpeg,image/png"
+                accept="application/pdf"
                 style={{ display: 'none' }}
               />
 
@@ -224,7 +224,7 @@ const Loans: React.FC = () => {
                 {file ? (
                   <p><b>{file.name}</b> selected</p>
                 ) : (
-                  <p><b>Click to upload</b> or drag and drop<br />PDF or Image (max 5MB)</p>
+                  <p><b>Click to upload</b> or drag and drop<br />PDF only (max 5MB)</p>
                 )}
               </div>
             </div>
