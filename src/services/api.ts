@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3000/api',
-    // baseUrl: 'https://shalomhope-lendsqr-be-test.onrender.com/api',
+    // baseUrl: 'http://localhost:3000/api',
+    baseUrl: 'https://shalomhope-lendsqr-be-test.onrender.com/api',
     prepareHeaders: (headers) => {
       headers.set('X-Client-Type', 'demoCredit-webapp');
       return headers;
