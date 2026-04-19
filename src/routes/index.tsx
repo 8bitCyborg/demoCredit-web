@@ -7,6 +7,7 @@ import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Transfers from '../pages/Transfers';
 import Documentation from '../pages/Documentation';
+import Loans from '../pages/Loans';
 
 export const publicRoutes = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const privateRoutes = createBrowserRouter([
       {
         path: 'dashboard/profile',
         element: <Profile />,
+      },
+      {
+        path: 'dashboard/loans',
+        element: <Loans />,
       },
       {
         path: 'dashboard/transfers',

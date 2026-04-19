@@ -80,6 +80,11 @@ const DashboardLayout: React.FC = () => {
             Transfers
           </NavLink>
 
+          <NavLink to="/dashboard/loans" className={navLinkClass} onClick={() => setIsSidebarOpen(false)}>
+            <ArrowLeftRight size={20} className="shrink-0" />
+            Loans
+          </NavLink>
+
           <NavLink to="/dashboard/documentation" className={navLinkClass} onClick={() => setIsSidebarOpen(false)}>
             <FileText size={20} className="shrink-0" />
             Documentation
