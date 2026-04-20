@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Upload, FileCheck, CircleAlert, Loader2 } from 'lucide-react';
+import { Upload, FileCheck, Loader2 } from 'lucide-react';
 import { useApplyForLoanMutation } from '../services/loan';
 import LoanApplications from '../components/LoanApplications';
 import './Loans.css';

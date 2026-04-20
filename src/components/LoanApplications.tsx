@@ -1,13 +1,11 @@
 import React from 'react';
 import { useGetLoanApplicationsQuery } from '../services/loan';
 import {
-  Sparkles,
   Calendar,
   Clock,
   Banknote,
   ShieldAlert,
   Loader2,
-  CheckCircle2
 } from 'lucide-react';
 import './LoanApplications.css';
 
