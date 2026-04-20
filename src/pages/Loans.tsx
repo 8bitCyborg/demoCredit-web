@@ -134,7 +134,7 @@ const Loans: React.FC = () => {
     <div className="loans-container">
       <header className="loans-header">
         <h1 className="loans-title">Personalized Credit Solutions</h1>
-        <p className="loans-subtitle">You're eligible to apply for a bridge loan up to ₦10,000,000</p>
+        <p className="loans-subtitle">Fill the form below to apply for a loan</p>
       </header>
 
       <div className="loan-card">
@@ -227,11 +227,6 @@ const Loans: React.FC = () => {
                   <p><b>Click to upload</b> or drag and drop<br />PDF only (max 5MB)</p>
                 )}
               </div>
-            </div>
-
-            <div className="validation-note">
-              <CircleAlert size={18} />
-              <span>Statement must be from at least one month ago to verify current income.</span>
             </div>
 
             {(isUploading || file) && (

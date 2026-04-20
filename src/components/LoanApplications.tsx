@@ -1,6 +1,14 @@
 import React from 'react';
 import { useGetLoanApplicationsQuery } from '../services/loan';
-import { Sparkles, Calendar, Clock, Banknote, ShieldAlert, Loader2 } from 'lucide-react';
+import {
+  Sparkles,
+  Calendar,
+  Clock,
+  Banknote,
+  ShieldAlert,
+  Loader2,
+  CheckCircle2
+} from 'lucide-react';
 import './LoanApplications.css';
 
 const LoanApplications: React.FC = () => {
@@ -40,7 +48,7 @@ const LoanApplications: React.FC = () => {
   return (
     <div className="loan-apps-container">
       <h2 className="loan-apps-title">Your Applications</h2>
-      
+
       <div className="loan-list">
         {applications.map((app) => (
           <div key={app.id} className="loan-item">
@@ -49,10 +57,10 @@ const LoanApplications: React.FC = () => {
                 <span className="loan-amount">₦{parseFloat(app.amount).toLocaleString()}</span>
                 <span className="loan-date">
                   <Calendar size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
-                  {new Date(app.created_at).toLocaleDateString(undefined, { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  {new Date(app.created_at).toLocaleDateString(undefined, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </span>
               </div>
@@ -87,11 +95,10 @@ const LoanApplications: React.FC = () => {
             {(app.reason || app.risk_score) && (
               <div className="ai-evaluation">
                 <div className="ai-header">
-                  <Sparkles size={16} color="#2563eb" />
-                  <span>AI Risk Assessment</span>
+                  <ShieldAlert size={16} color="#2563eb" />
+                  <span>Risk Assessment Score</span>
                   <div className="risk-tag">
-                    <ShieldAlert size={12} />
-                    Score: {app.risk_score}/100
+                    {app.risk_score}/100
                   </div>
                 </div>
                 <p className="ai-reasoning">{app.reason}</p>
