@@ -269,7 +269,7 @@ const Loans: React.FC = () => {
           <div className="overlay-content">
             <Loader2 className="spinner" size={48} />
             <p>Processing Application...</p>
-            <span>Our AI is analyzing your bank statement to ensure the best terms.</span>
+            <span>Analyzing your application. We will issue a verdict shortly. <br /> Please wait. </span>
           </div>
         </div>
       )}
